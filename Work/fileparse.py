@@ -10,10 +10,6 @@ def parse_csv(iterObject, select=None, types=None, has_headers=True, delimiter_c
     '''
     if select and has_headers == False:
         raise RuntimeError("select argument requires column headers")
-        
-    # (custom way) determine if a file given as input, and open it
-    if "." in iterObject:
-        iterObject = open(iterObject, 'rt')
     
     # by all means now, separate rows of the given object (separated with regards to delimiter)
     rows = csv.reader(iterObject, delimiter=delimiter_custom)

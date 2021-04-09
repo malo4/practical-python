@@ -15,13 +15,19 @@
 
 import sys
 import fileparse
+import stock
+import tableformat
 
 def read_portfolio(filename):
-    ''' Initially computed manually the total cost (shares*price) of a portfolio file
-    Now, simply reads a stock portfolio file into a List of dictionaries with keys: name, shares, and price.
     '''
-    with open(filename) as iterObject:
-        return fileparse.parse_csv(filename, select=['name','shares','price'], types=[str,int,float])
+    Read a stock portfolio file into a list of Object ('Stock' here) instances with
+    name, shares, and price.
+    '''
+    with open(filename) as lines:
+        portdicts = fileparse.parse_csv(lines, select=['name','shares','price'], types=[str,int,float])
+        
+    portfolio = [ stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts ]
+    return portfolio
     
 
 def read_prices(filename):
@@ -29,7 +35,7 @@ def read_prices(filename):
     Now, simply reads a CSV file of price data into a Dict. mapping names to prices.
     '''
     with open(filename) as iterObject:
-        return dict(fileparse.parse_csv(filename,types=[str,float], has_headers=False))
+        return dict(fileparse.parse_csv(iterObject,types=[str,float], has_headers=False))
 
 def make_report(portfolio, price):
     ''' takes a list of stocks and dictionary of prices and returns a list of tuples containing these in rows 
@@ -37,37 +43,37 @@ def make_report(portfolio, price):
     report_list = []
     
     for n in portfolio:
-        current_price = price[n['name']]
-        changes = n['price'] - current_price
-        tup = (n['name'], n['shares'], current_price, changes)
+        current_price = price[n.name]
+        changes = n.price - current_price
+        tup = (n.name, n.shares, current_price, changes)
         report_list.append(tup)
         
     return report_list
 
-def print_report(report):
+def print_report(report, formatter):
     ''' calculations asked for report '''
-    #Suppose you had a tuple of header names like this:
-    headers_tup = ('Name', 'Shares', 'Price', 'Change')
-    
-    # take the above tuple of headers and create a string where each header name is right-aligned in a 10-character wide field:
-    print('%10s %10s %10s %10s' % headers_tup)
-    
-    for r in report:
-        print('%10s %10d %10.2f %10.2f' % r)
-        
+    formatter.headings(['Name', 'Shares', 'Price', 'Change'])
+    for name, shares, price, change in report:
+        rowdata = [ name, str(shares), f'{price:0.2f}', f'{change:0.2f}' ]
+        formatter.row(rowdata)
+     
     return
     
-def portfolio_report(portfolio_file, prices_file):
-    ''' A top-level function for Report program execution - simply execute all of the steps involved in this program '''
+def portfolio_report(portfolio_file, prices_file, fmt='txt'):
+    '''
+    Make a stock report given portfolio and price data files.
+    '''
     portfolio = read_portfolio(portfolio_file)
     price = read_prices(prices_file)
     report = make_report(portfolio, price)
-    print_report(report)
-    
+    # print it out:
+    formatter = tableformat.create_formatter(fmt)
+    print_report(report, formatter)
+
     return
     
 def main(args):
-    if len(args) != 3:
+    if len(args) not in (3,4):
         raise SystemExit('proper way of using this function:: %s portfile pricefile' % args[0])
     portfolio_report(args[1], args[2])
     

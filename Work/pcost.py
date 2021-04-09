@@ -16,7 +16,7 @@ def portfolio_cost(filename):
     returns the total cost of the portfolio as a float.
     '''
     portfolio = report.read_portfolio(filename)
-    return sum([s['shares']*s['price'] for s in portfolio])
+    return sum([s.shares * s.price for s in portfolio])
 
 # pass the name of the file in as an argument
 # sys.argv is a list containing passed arguments on the command line (if any). If no arg given through cmd we set here a default file to read (else case)
