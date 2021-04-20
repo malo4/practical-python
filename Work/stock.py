@@ -1,7 +1,14 @@
 # stock.py
 
+from typedproperty import String, Integer, Float #defined in typedproperty.py to simplify code and eliminate annoying repetition
+
+
 class Stock:
-    __slots__ = ('name','_shares','price')
+    #__slots__ = ('name','_shares','price') # Prior code - allowing certain attr names to be given only
+    name = String('name')
+    shares = Integer('shares')
+    price = Float('price')
+    
     def __init__(self, name, shares, price):
         self.name = name
         self.shares = shares
@@ -13,16 +20,6 @@ class Stock:
     @property
     def cost (self):
         return self.shares * self.price
-        
-    @property
-    def shares(self):
-        return self._shares
-        
-    @shares.setter
-    def shares(self,value):
-        if not isinstance(value, int):
-            raise TypeError("int value expected!")
-        self._shares = value
         
     def sell (self, nshares):
         self.shares -= nshares

@@ -6,7 +6,7 @@
 '''
  define a function read_portfolio(filename) that opens a given portfolio file and 
  reads it and represent each stock in the portfolio with a 
- dictionary (instead of a tuple used initially). 
+ dictionary.
  In dictionary use the field names of “name”, “shares”, and “price” to represent the 
  different columns in the input file.
  Plus, to work with various input files, but without regard for the actual column number where the name, shares, and price appear...
@@ -15,20 +15,17 @@
 
 import sys
 import fileparse
-import stock
+from stock import Stock
+from portfolio import Portfolio
 import tableformat
 
-def read_portfolio(filename):
+def read_portfolio(filename, **opts):
     '''
-    Read a stock portfolio file into a list of Object ('Stock' here) instances with
-    name, shares, and price.
+    Read a stock portfolio file into a list of Object ('Stock') instances (iterable instances) with
+    name, shares, and price. The creation of a Portfolio object (here and in portfolio.py files) was a bit muddled, so now working w/ the Portfolio classmethod created there
     '''
     with open(filename) as lines:
-        portdicts = fileparse.parse_csv(lines, select=['name','shares','price'], types=[str,int,float])
-        
-    portfolio = [ stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts ]
-    return portfolio
-    
+        return Portfolio.from_csv(lines, **opts) # using the Portfolio classmethod 'from_csv'
 
 def read_prices(filename):
     '''Initally read a set of prices into a dictionary where the keys of the dictionary are the stock names and the values in the dictionary are the stock prices. 
