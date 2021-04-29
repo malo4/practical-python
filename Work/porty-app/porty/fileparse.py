@@ -3,6 +3,8 @@
 # Exercise 3.3
 
 import csv
+import logging
+log = logging.getLogger(__name__)
 
 def parse_csv(iterObject, select=None, types=None, has_headers=True, delimiter_custom=',', silence_errors=False):
     '''
@@ -42,9 +44,9 @@ def parse_csv(iterObject, select=None, types=None, has_headers=True, delimiter_c
             try:
                 row = [func(val) for func, val in zip(types, row) ]
             except ValueError as e:
-                if not silence_errors: # silence_errors == False
-                    print(f"Row {i}: Couldn't convert {row}")
-                    print ("Failed to convert due to...", e)
+                if not silence_errors:
+                    log.warning("Row %d: Couldn't convert %s", i, row)
+                    log.debug("Row %d: Reason %s", i, e)
                 continue
             
         if has_headers:

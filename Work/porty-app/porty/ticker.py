@@ -1,6 +1,6 @@
 # ticker.py
 
-from follow import follow
+from .follow import follow
 import csv
 
 # generator funct. - to select specific columns

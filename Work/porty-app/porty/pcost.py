@@ -4,11 +4,9 @@
 # Exercise 1.27
 
 """
-The columns in portfolio.csv correspond to the stock name, number of shares, and purchase price of a single stock holding. 
-Write a program called pcost.py that opens this file, reads all lines, and calculates how much it cost to purchase all of the shares in the portfolio.
-Hint: to convert a string to an integer, use int(s). To convert a string to a floating point, use float(s).
+Computes portfolio cost.
 """
-import report
+from . import report
 
 def portfolio_cost(filename):
     '''

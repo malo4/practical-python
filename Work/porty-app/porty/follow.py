@@ -5,6 +5,7 @@ import time
 def follow(filename):
     '''
     Generator that produces a sequence of lines being written at the end of a file.
+    Implication ... follow a log file
     '''
     f = open(filename)
     f.seek(0, os.SEEK_END)   # seek to the end - Move file pointer 0 bytes from end of file

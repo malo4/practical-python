@@ -1,10 +1,10 @@
 # stock.py
 
-from typedproperty import String, Integer, Float #defined in typedproperty.py to simplify code and eliminate annoying repetition
+from .typedproperty import String, Integer, Float # defined in typedproperty.py to simplify code and eliminate annoying repetition
 
 
 class Stock:
-    #__slots__ = ('name','_shares','price') # Prior code - allowing certain attr names to be given only
+    #__slots__ = ('name','_shares','price') # (Prior code) allowing certain attr names to be given only
     name = String('name')
     shares = Integer('shares')
     price = Float('price')

@@ -82,7 +82,7 @@ def print_table(objects, cols, formatter):
     '''
     formatter.headings(cols)
     for obj in objects:
-        rowdata = [ str(getattr(obj, name)) for name in cols ] # list comprehension - getting attribute(s) of given object(cols given; interested in)
+        rowdata = [ str(getattr(obj, name)) for name in cols ] # list comprehension - getting attribute(s) of given object(cols given/ interested in)
         formatter.row(rowdata)
         
     return

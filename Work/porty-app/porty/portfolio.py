@@ -1,7 +1,7 @@
 # portfolio.py
 
-import fileparse
-import stock
+from . import fileparse
+from . import stock
 
 class Portfolio:
     # As the Portfolio class is supposed to contain a list of Stock instances:
@@ -23,7 +23,7 @@ class Portfolio:
                                         **opts)
                      
         for d in portdicts:
-            self.append(stock.Stock(**d)) # Stock(d['name'], d['shares'], d['price']) BEFORE in report.py - dict. expanded into kwargs
+            self.append(stock.Stock(**d)) # dict. expanded into kwargs ... previous code in report.py : Stock(d['name'], d['shares'], d['price'])
         
         return self
         

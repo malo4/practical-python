@@ -5,31 +5,29 @@
 
 '''
  define a function read_portfolio(filename) that opens a given portfolio file and 
- reads it and represent each stock in the portfolio with a 
- dictionary.
- In dictionary use the field names of “name”, “shares”, and “price” to represent the 
- different columns in the input file.
- Plus, to work with various input files, but without regard for the actual column number where the name, shares, and price appear...
- using zip() - of the most useful tricks to know about when processing a lot of data files
+ reads it and represent each stock in the portfolio with a dictionary.
+ To work with various input files but without regard for the actual column number where the name, shares, and price appear use zip()
+ (Tip-trick to know about when processing a lot of data files)
 '''
 
 import sys
-import fileparse
-from stock import Stock
-from portfolio import Portfolio
-import tableformat
+from . import fileparse
+from .stock import Stock
+from .portfolio import Portfolio
+from . import tableformat
 
 def read_portfolio(filename, **opts):
     '''
-    Read a stock portfolio file into a list of Object ('Stock') instances (iterable instances) with
-    name, shares, and price. The creation of a Portfolio object (here and in portfolio.py files) was a bit muddled, so now working w/ the Portfolio classmethod created there
+    Read a stock portfolio file into a list of Object ('Stock') instances (iterable instances) with name, shares, and price. 
+    The creation of a Portfolio object (here and in portfolio.py files) was a bit muddled, so now working w/ the Portfolio classmethod created there
     '''
     with open(filename) as lines:
         return Portfolio.from_csv(lines, **opts) # using the Portfolio classmethod 'from_csv'
 
 def read_prices(filename):
-    '''Initally read a set of prices into a dictionary where the keys of the dictionary are the stock names and the values in the dictionary are the stock prices. 
-    Now, simply reads a CSV file of price data into a Dict. mapping names to prices.
+    ''' 
+    Reads a CSV file of price data into a Dict. mapping names to prices.
+    Initally read a set of prices into a dictionary where the keys of the dictionary were the stock names and values in the dictionary were stock prices.
     '''
     with open(filename) as iterObject:
         return dict(fileparse.parse_csv(iterObject,types=[str,float], has_headers=False))
